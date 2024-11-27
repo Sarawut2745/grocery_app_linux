@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -15,14 +17,16 @@ class UserScreen extends StatefulWidget {
 
 class _UserScreenState extends State<UserScreen> {
   final TextEditingController _addressTextController =
-      TextEditingController(text: "");
+      TextEditingController(text: ""); // Line 16
 
   @override
   Widget build(BuildContext context) {
-    final themeState = Provider.of<DarkThemeProvider>(context);
-    final Color color = themeState.getDarkTheme ? Colors.white : Colors.black;
+    final themeState = Provider.of<DarkThemeProvider>(context); // Line 20
+    final Color color =
+        themeState.getDarkTheme ? Colors.white : Colors.black; // Line 21
 
     return Scaffold(
+      // Line 23
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -31,7 +35,7 @@ class _UserScreenState extends State<UserScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 15),
+                const SizedBox(height: 15), // Line 31
                 RichText(
                   text: TextSpan(
                     text: 'Hi,  ',
@@ -63,7 +67,7 @@ class _UserScreenState extends State<UserScreen> {
                   textSize: 18,
                 ),
                 const SizedBox(height: 20),
-                const Divider(thickness: 2),
+                const Divider(thickness: 2), // Line 54
                 const SizedBox(height: 20),
                 _listTiles(
                   title: 'Address',
@@ -121,10 +125,10 @@ class _UserScreenState extends State<UserScreen> {
                   value: themeState.getDarkTheme,
                 ),
                 _listTiles(
-                  title: 'Logout',
+                  title: 'Logout', // Line 104
                   icon: IconlyLight.logout,
                   onPressed: () {
-                    print('Logout tapped');
+                    _showLogoutDialog(); // Line 108
                   },
                   color: color,
                 ),
@@ -138,8 +142,8 @@ class _UserScreenState extends State<UserScreen> {
     );
   }
 
-  // Custom ListTile widget
   Widget _listTiles({
+    // Line 120
     required String title,
     String? subtitle,
     required IconData icon,
@@ -167,8 +171,8 @@ class _UserScreenState extends State<UserScreen> {
     );
   }
 
-  // Dialog to update the address
   Future<void> _showAddressDialog() async {
+    // Line 146
     await showDialog(
       context: context,
       builder: (context) {
@@ -193,8 +197,8 @@ class _UserScreenState extends State<UserScreen> {
     );
   }
 
-  // Alternative list tile widget
   Widget listTileAsRow() {
+    // Line 173
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -219,5 +223,41 @@ class _UserScreenState extends State<UserScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _showLogoutDialog() async {
+    // Line 198
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Do you want to logout ?'), // Line 204
+          content:
+              const Text('If confirmed, you will exit the app.'), // Line 205
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Line 209
+              },
+              child: const Text('Cancel'), // Line 211
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Line 214
+                _logout(); // Line 215
+              },
+              child: const Text('Yes'), // Line 217
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _logout() {
+    // Line 222
+    print('User logged out');
+    exit(0);
+    // Example: SystemNavigator.pop(); // Uncomment to close the app
   }
 }
