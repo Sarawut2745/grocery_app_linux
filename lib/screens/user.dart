@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/widgets/text_widgets.dart';
 import 'package:provider/provider.dart';
@@ -257,7 +258,7 @@ class _UserScreenState extends State<UserScreen> {
   void _logout() {
     // Line 222
     print('User logged out');
-    exit(0);
+    SystemNavigator.pop();
     // Example: SystemNavigator.pop(); // Uncomment to close the app
   }
 }
