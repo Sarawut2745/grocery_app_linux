@@ -1,87 +1,31 @@
 import 'package:flutter/material.dart';
-import 'dart:math'; // ใช้สำหรับสุ่มค่า
-
+import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 import '../provider/dark_theme_provider.dart';
-import '../widgets/text_widgets.dart';
 
-class CategoriesGrid extends StatelessWidget {
-  const CategoriesGrid({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final themeState = Provider.of<DarkThemeProvider>(context);
-    final Color color = themeState.getDarkTheme ? Colors.white : Colors.black;
-
-    // ข้อมูลจำลอง (Dummy Data) สำหรับหมวดหมู่
-    final List<Map<String, String>> categories = [
-      {'name': 'Vegetables', 'image': 'assets/images/cat/veg.png'},
-      {'name': 'Nuts', 'image': 'assets/images/cat/nuts.png'},
-      {'name': 'Grains', 'image': 'assets/images/cat/grains.png'},
-      {'name': 'Spinach', 'image': 'assets/images/cat/Spinach.png'},
-      {'name': 'Fruits', 'image': 'assets/images/cat/fruits.png'},
-      {'name': 'Spices', 'image': 'assets/images/cat/spices.png'},
-    ];
-
-    return Scaffold(
-      body: GridView.builder(
-        padding: const EdgeInsets.all(10),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // จำนวนคอลัมน์
-          crossAxisSpacing: 10, // ระยะห่างระหว่างคอลัมน์
-          mainAxisSpacing: 10, // ระยะห่างระหว่างแถว
-          childAspectRatio: 3 / 4, // อัตราส่วนความกว้างต่อความสูง
-        ),
-        itemCount: categories.length,
-        itemBuilder: (context, index) {
-          // สร้างสีแบบสุ่ม
-          final randomColor = _generateRandomColor();
-          return CategoryItem(
-            name: categories[index]['name']!,
-            imagePath: categories[index]['image']!,
-            color: color,
-            backgroundColor: randomColor,
-          );
-        },
-      ),
-    );
-  }
-
-  // ฟังก์ชันสำหรับสร้างสีแบบสุ่ม
-  Color _generateRandomColor() {
-    final Random random = Random();
-    return Color.fromRGBO(
-      random.nextInt(256), // ค่า R (0-255)
-      random.nextInt(256), // ค่า G (0-255)
-      random.nextInt(256), // ค่า B (0-255)
-      0.2 + random.nextDouble() * 0.6, // ความโปร่งใส (0.2-0.8)
-    );
-  }
-}
-
-class CategoryItem extends StatelessWidget {
-  final String name;
+class CategoriesWidget extends StatelessWidget {
   final String imagePath;
-  final Color color;
-  final Color backgroundColor;
+  final String categoryName;
 
-  const CategoryItem({
+  const CategoriesWidget({
     Key? key,
-    required this.name,
     required this.imagePath,
-    required this.color,
-    required this.backgroundColor,
+    required this.categoryName,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final themeState = Provider.of<DarkThemeProvider>(context);
+    double _screenWidth = MediaQuery.of(context).size.width;
+    final Color color = themeState.getDarkTheme ? Colors.white : Colors.black;
+
     return InkWell(
       onTap: () {
-        print('Tapped on $name');
+        print('$categoryName pressed');
       },
       child: Container(
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: Colors.red.withOpacity(0.1),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: Colors.red.withOpacity(0.7),
@@ -91,10 +35,10 @@ class CategoryItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Image Section
+            // Image
             Container(
-              height: 80,
-              width: 80,
+              height: _screenWidth * 0.3,
+              width: _screenWidth * 0.3,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(imagePath),
@@ -103,11 +47,11 @@ class CategoryItem extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            // Name Section
+            // Category name
             TextWidget(
-              text: name,
+              text: categoryName,
               color: color,
-              textSize: 16,
+              textSize: 20,
               isTitle: true,
             ),
           ],

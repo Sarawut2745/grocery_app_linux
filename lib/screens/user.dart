@@ -4,7 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:grocery_app/widgets/text_widgets.dart';
+import 'package:grocery_app/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/dark_theme_provider.dart';
@@ -47,7 +47,7 @@ class _UserScreenState extends State<UserScreen> {
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                        text: 'Sarawut',
+                        text: 'Krittapas',
                         style: TextStyle(
                           color: color,
                           fontSize: 25,
@@ -63,7 +63,7 @@ class _UserScreenState extends State<UserScreen> {
                 ),
                 const SizedBox(height: 5),
                 TextWidget(
-                  text: 'sarawut.sangsu@gmail.com',
+                  text: 'KK@gmail.com',
                   color: color,
                   textSize: 18,
                 ),
@@ -232,7 +232,12 @@ class _UserScreenState extends State<UserScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Do you want to logout ?'), // Line 204
+          title: Row(
+            children: [
+              Image.asset('assets/images/cat/veg.png',
+                  height: 20, width: 20, fit: BoxFit.fill)
+            ],
+          ),
           content:
               const Text('If confirmed, you will exit the app.'), // Line 205
           actions: [
